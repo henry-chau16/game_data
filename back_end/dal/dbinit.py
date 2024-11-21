@@ -1,8 +1,9 @@
 import sqlite3
 import pandas as pd
-from dbfunctions import SQLsession
+from dal import SQLsession
 
 def loadDB(session: SQLsession, games_data, accounts_data):
+    
     print('starting')
     session.create_table('Games', 
                          ("Title TEXT PRIMARY KEY unique not null, "
@@ -20,10 +21,20 @@ def loadDB(session: SQLsession, games_data, accounts_data):
     session.create_table('Reviews',
                          ("Title TEXT not null, "
                           "Review Text not null, "
-                          "FOREIGN KEY (Title) REFERENCES Games(Title)"
+                          "AccountID ID INTEGER, "
+                          "FOREIGN KEY (Title) REFERENCES Games(Title), "
+                          "FOREIGN KEY (AccountID) REFERENCES Accounts(AccountID)"
                          ),
                           "")
     
+    session.create_table('Accounts',
+                         ("AccountID INTEGER PRIMARY KEY unique not null, "
+                          "Username TEXT unique not null, "
+                          "HashPassword TEXT unique not null, "
+                          "Salt TEXT not null"
+                          ),
+                          "")
+
     games_db = pd.read_csv(games_data)
     games_db = games_db.drop_duplicates(subset=['Title'], keep='first')
 
@@ -31,6 +42,8 @@ def loadDB(session: SQLsession, games_data, accounts_data):
     games_db.drop(columns=['Plays', 'Backlogs', 'Wishlist'], inplace=True)
 
     reviews_db = pd.DataFrame(columns=['Title', 'Review'])
+
+    print(reviews_db.head())
 
     for index, row in games_db.iterrows():
         title = row['Title']
@@ -41,8 +54,11 @@ def loadDB(session: SQLsession, games_data, accounts_data):
     games_db.drop(columns=['Reviews'], inplace=True)
     games_db.rename(columns={'Release Date': 'ReleaseDate', 'Times Listed': 'Listed', 
                              'Number of Reviews': 'Reviews'}, inplace=True)
-    
 
-    print(games_db.dtypes)
+    accounts_db = pd.read_csv(accounts_data)
+    reviews_db['AccountID'] = 1    
+
     session.load_df('Games', games_db)
     session.load_df('Reviews', reviews_db)
+    session.load_df('Accounts', accounts_db)
+   
