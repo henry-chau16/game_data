@@ -1,5 +1,5 @@
-from ..dal.dbfunctions import *
-from ..dal.query_builder import *
+from back_end.dal.dbfunctions import *
+from back_end.dal.query_builder import *
 import os
 import hashlib
 

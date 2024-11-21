@@ -1,6 +1,6 @@
-import sqlite3
 import pandas as pd
-from dal import SQLsession
+from back_end.dal import SQLsession
+import os
 
 def loadDB(session: SQLsession, games_data, accounts_data):
     

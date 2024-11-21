@@ -1,5 +1,5 @@
-from ..dal.query_builder import *
-from ..dal.dbfunctions import *
+from back_end.dal.query_builder import *
+from back_end.dal.dbfunctions import *
 
 class SearchEngine():
     def __init__(self, session: SQLsession):
@@ -20,11 +20,13 @@ class SearchEngine():
             self.subquery.reset('all')
             self.filter_state = False
             return self
-        
+        filter_list = []
         for key in filters.keys():
-            self.subquery.where(f'{key} {filters[key]}')
-        
-        self.query.alias(self.subquery.build(), 'filter')
+            filter_list.append(f' {key} {filters[key]}')
+        vals = ' AND'.join(filter_list)
+        self.subquery.where(vals)
+        with_clause = self.subquery.build()
+        self.query.alias(with_clause, 'filter')
         self.filter_state = True
         return self
 
@@ -52,10 +54,16 @@ class SearchEngine():
         self.query.offset(num)
         return self
 
-    def search(self, fields: list[str], key, value, dtype, expr = '='):
+    def search(self, key, value, dtype = 'TEXT', fields: list[str] = ['*'], expr = 'LIKE'):
+        self.query.reset('where')
         source = 'Games'
-        if (self.filter_status):
+        val = value
+        if (self.filter_state):
             source = 'filter'
         
-        self.query.fields(fields).source(source).where(add_expr(key, value, dtype, expr))
+        if (expr == 'LIKE'):
+            val = f'%{value}%'
+
+        self.query.fields(fields).source(source).where(add_expr(key, val, dtype, expr))
+        print(self.query.build())
         return self.session.sql_query(self.query.build())

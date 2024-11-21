@@ -4,10 +4,9 @@ import os
 
 class SQLsession():
     
-    def __init__(self, db_name, path = ''):
+    def __init__(self, db_name):
         self.db_name = db_name
-        self.path = path
-        self.conn = None
+        self.conn = sq.connect(self.db_name, check_same_thread=False)
 
         self.tables = []
     
