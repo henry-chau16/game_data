@@ -83,10 +83,13 @@ class SQLsession():
             return -1
         return 0
 
-    def sql_query(self, command):
+    def sql_query(self, command, fetchall: bool = True):
         cur=self.conn.cursor()
         cur.execute(command)
-        result=cur.fetchall()
+        if (fetchall):
+            result=cur.fetchall()
+        else:
+            result = cur.fetchone()
         #print(result)
         self.conn.commit()
         return result

@@ -34,6 +34,13 @@ def loadDB(session: SQLsession, games_data, accounts_data):
                           "Salt TEXT not null"
                           ),
                           "")
+    
+    session.create_table('Sessions',
+                         ("session_id TEXT PRIMARY KEY, "
+                          "data BLOB NOT NULL, "
+                          "expiration DATETIME NOT NULL"
+                         ),
+                         "")
 
     games_db = pd.read_csv(games_data)
     games_db = games_db.drop_duplicates(subset=['Title'], keep='first')
