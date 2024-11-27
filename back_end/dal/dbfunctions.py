@@ -4,7 +4,7 @@ import os
 
 class SQLsession():
     
-    def __init__(self, db_name):
+    def __init__(self, db_name = 'games.db'):
         self.db_name = db_name
         self.conn = sq.connect(self.db_name, check_same_thread=False)
 
@@ -84,6 +84,7 @@ class SQLsession():
         return 0
 
     def sql_query(self, command, fetchall: bool = True):
+        print(command)
         cur=self.conn.cursor()
         cur.execute(command)
         if (fetchall):

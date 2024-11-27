@@ -3,16 +3,15 @@ from dash import html, dcc, Input, Output, State, callback
 from back_end.accounts import AccountManager
 from back_end.dal import SQLsession
 
+sqlsession = SQLsession()
+
 # Register the login page
 dash.register_page(__name__, path="/login")
-
-# Initialize the SQLsession and AccountManager
-sqlsession = SQLsession()  # Ensure this gets replaced with the session passed in app.py
-account_manager = AccountManager(sqlsession)
 
 # Layout for the login page
 layout = html.Div([
     html.H1("Login Page"),
+    dcc.Store(id="session-id", storage_type='session'),
     dcc.Tabs(id="tabs", value="login", children=[
         dcc.Tab(label="Login", value="login"),
         dcc.Tab(label="Create Account", value="create_account")
@@ -53,7 +52,11 @@ def render_tab(tab):
 def login(n_clicks, username, password):
     if not username or not password:
         return dash.no_update, "Please fill in all fields."
-
+    
+    #sqlsession = flask_session['sqlsession']
+    if not sqlsession:
+        return "Session expired. Please refresh the page."
+    account_manager = AccountManager(sqlsession)
     if account_manager.verifyLogin(username, password):
         # Store user session info in dcc.Store (example: username and logged_in status)
         return {"logged_in": True, "username": username}, "Login successful! Redirecting..."
@@ -71,6 +74,12 @@ def login(n_clicks, username, password):
 def create_account(n_clicks, username, password):
     if not username or not password:
         return "Please fill in all fields."
+
+    #sqlsession = flask_session['sqlsession']
+    if not sqlsession:
+        return "Session expired. Please refresh the page."
+    
+    account_manager = AccountManager(sqlsession)
 
     if account_manager.searchAccountID(username):
         return "Username already exists. Please choose another."

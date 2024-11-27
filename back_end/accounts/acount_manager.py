@@ -21,7 +21,7 @@ class AccountManager():
             self.query
             .fields(['AccountID'])
             .source('Accounts')
-            .where(f'Username = "{username}"')
+            .where(f' Username = "{username}"')
             .build()
         )
 
@@ -33,7 +33,7 @@ class AccountManager():
             self.query
             .fields(['HashPassword', 'Salt'])
             .source('Accounts')
-            .where(f'Username = "{username}"')
+            .where(f' Username = "{username}"')
             .build()
         )
         result = self.session.sql_query(command)
