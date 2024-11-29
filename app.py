@@ -22,14 +22,5 @@ app.layout = html.Div([
     page_container
 ])
 
-@callback(
-    Output("url", "pathname"),
-    Input("session-id", "data")
-)
-def handle_redirect(session_data):
-    if session_data and session_data.get("logged_in"):
-        return "/"  # Redirect to the home page after login
-    return "/login"
-
 if __name__ == "__main__":
     app.run_server(debug=True)

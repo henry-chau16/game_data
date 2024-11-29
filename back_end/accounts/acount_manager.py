@@ -24,8 +24,10 @@ class AccountManager():
             .where(f' Username = "{username}"')
             .build()
         )
-
-        return self.session.sql_query(command)
+        results = self.session.sql_query(command, fetchall=False)
+        if not results:
+            return None
+        return results[0]
 
     def verifyLogin(self, username, password):
         self.query.reset('all')

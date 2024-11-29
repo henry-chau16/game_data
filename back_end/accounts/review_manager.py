@@ -12,9 +12,10 @@ class ReviewManager():
             self.query
             .fields(['Title', 'Review'])
             .source('Reviews')
-            .where(f'AccountID = {str(accountID)}')
+            .where(f' AccountID = {str(accountID)}')
             .build()
         )
+        print(command)
         return(self.session.sql_query(command))
 
     def createReviews(self, title, review, accountID):
@@ -28,7 +29,7 @@ class ReviewManager():
             .fields(['Username', 'Review'])
             .source('Reviews', False,
                     add_join('Accounts', 'Reviews', 'AccountID', join_type = 'LEFT'))
-            .where(f'Title = "{title}"')
+            .where(f' Title = "{title}"')
             .build()
         )
         return self.session.sql_query(command)

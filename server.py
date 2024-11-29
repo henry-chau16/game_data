@@ -4,15 +4,15 @@ from back_end.gamedata import *
 
 
 
-session = SQLsession('games.db')
+session = SQLsession()
 #session.connect()
-
+"""
 game_data = 'games.csv'
 account_data = 'accounts.csv'
 
 loadDB(session, game_data, account_data) 
 #print("done")
-
+"""
 
 search = SearchEngine(session)
 accounts = AccountManager(session)

@@ -54,7 +54,7 @@ class SearchEngine():
         self.query.offset(num)
         return self
 
-    def search(self, key, value, dtype = 'TEXT', fields: list[str] = ['*'], expr = 'LIKE'):
+    def search(self, key, value, dtype = 'TEXT', fields: list[str] = ['*'], expr = 'LIKE', fetchall=True):
         self.query.reset('where')
         source = 'Games'
         val = value
@@ -66,4 +66,4 @@ class SearchEngine():
 
         self.query.fields(fields).source(source).where(add_expr(key, val, dtype, expr))
         print(self.query.build())
-        return self.session.sql_query(self.query.build())
+        return self.session.sql_query(self.query.build(), fetchall=fetchall)

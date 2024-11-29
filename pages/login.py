@@ -6,12 +6,13 @@ from back_end.dal import SQLsession
 sqlsession = SQLsession()
 
 # Register the login page
-dash.register_page(__name__, path="/login")
+dash.register_page(__name__, path="/")
 
 # Layout for the login page
 layout = html.Div([
     html.H1("Login Page"),
     dcc.Store(id="session-id", storage_type='session'),
+    dcc.Location(id="url", refresh=True),
     dcc.Tabs(id="tabs", value="login", children=[
         dcc.Tab(label="Login", value="login"),
         dcc.Tab(label="Create Account", value="create_account")
@@ -42,8 +43,9 @@ def render_tab(tab):
 
 # Callback for login functionality
 @callback(
-    Output("session-id", "data"),
+    Output("session-id", "data", allow_duplicate=True),
     Output("login-output", "children"),
+    Output("url", "pathname", allow_duplicate=True),
     Input("login-button", "n_clicks"),
     State("login-username", "value"),
     State("login-password", "value"),
@@ -58,8 +60,8 @@ def login(n_clicks, username, password):
         return "Session expired. Please refresh the page."
     account_manager = AccountManager(sqlsession)
     if account_manager.verifyLogin(username, password):
-        # Store user session info in dcc.Store (example: username and logged_in status)
-        return {"logged_in": True, "username": username}, "Login successful! Redirecting..."
+        print("user logging in")
+        return {"logged_in": True, "username": username, "title": ''}, "Login successful! Redirecting...", "/home"
     else:
         return dash.no_update, "Invalid username or password."
 

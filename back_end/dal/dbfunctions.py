@@ -93,5 +93,6 @@ class SQLsession():
             result = cur.fetchone()
         #print(result)
         self.conn.commit()
+        print(result)
         return result
     
