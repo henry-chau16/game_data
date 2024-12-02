@@ -13,21 +13,27 @@ account_manager = AccountManager(sqlsession)
 
 
 # Home page layout
-layout = html.Div([
-    dcc.Store(id="session-id", storage_type="session"),
-    dcc.Store(id="game-title", storage_type="session"),
-    dcc.Location(id='url', refresh=True),
-    html.Button("Logout", id="logout-button", n_clicks=0),
-    html.Div(id="logout-output", style={"margin-top": "10px"}),
-    html.Div(id="debug-output"),
-    html.H1(id='welcome'),
-    dcc.Tabs(id="tabs-home", value="search", children=[
-        dcc.Tab(label="Search Games", value="search"),
-        dcc.Tab(label="Your Reviews", value="get_reviews")
-    ]),
-    html.Div(id="content")
-    
-])
+layout = html.Div(
+    className="glass-style",  # Apply glass-style to the outer container
+    children=[
+        dcc.Store(id="session-id", storage_type="session"),
+        dcc.Store(id="game-title", storage_type="session"),
+        dcc.Location(id="url", refresh=True),
+        html.Button("Logout", id="logout-button", n_clicks=0),
+        html.Div(id="logout-output", style={"margin-top": "10px"}),
+        html.Div(id="debug-output"),
+        html.H1(id='welcome', style={"margin-bottom": "20px"}),  # Add spacing below the heading
+        dcc.Tabs(
+            id="tabs-home",
+            value="search",
+            children=[
+                dcc.Tab(label="Search Games", value="search"),
+                dcc.Tab(label="Your Reviews", value="get_reviews")
+            ]
+        ),
+        html.Div(id="content", style={"margin-top": "20px"})  # Add spacing for content
+    ]
+)
 
 @callback(
     Output("content", "children"),
@@ -37,7 +43,7 @@ layout = html.Div([
 def render_tab_home(tab, session_data):
     if tab == "search":
         return html.Div([
-            dcc.Input(id="search-query", type="text", placeholder="Search Games"),
+            dcc.Input(id="search-query", type="text", placeholder="Search Games", className="input-style"),
             html.Button("Search", id="search-button"),
             html.Div(id="search-results"),
         ])

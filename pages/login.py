@@ -9,16 +9,23 @@ sqlsession = SQLsession()
 dash.register_page(__name__, path="/")
 
 # Layout for the login page
-layout = html.Div([
-    html.H1("Login Page"),
-    dcc.Store(id="session-id", storage_type='session'),
-    dcc.Location(id="url", refresh=True),
-    dcc.Tabs(id="tabs", value="login", children=[
-        dcc.Tab(label="Login", value="login"),
-        dcc.Tab(label="Create Account", value="create_account")
-    ]),
-    html.Div(id="tab-content")
-])
+layout = html.Div(
+    className="glass-style",  # Place className as an attribute of html.Div
+    children=[
+        html.H1("Login Page"),
+        dcc.Store(id="session-id", storage_type='session'),
+        dcc.Location(id="url", refresh=True),
+        dcc.Tabs(
+            id="tabs",
+            value="login",
+            children=[
+                dcc.Tab(label="Login", value="login"),
+                dcc.Tab(label="Create Account", value="create_account")
+            ]
+        ),
+        html.Div(id="tab-content")
+    ]
+)
 
 # Callbacks for rendering tabs
 @callback(
@@ -28,15 +35,15 @@ layout = html.Div([
 def render_tab(tab):
     if tab == "login":
         return html.Div([
-            dcc.Input(id="login-username", type="text", placeholder="Username"),
-            dcc.Input(id="login-password", type="password", placeholder="Password"),
+            dcc.Input(id="login-username", type="text", placeholder="Username", className="input-style"),
+            dcc.Input(id="login-password", type="password", placeholder="Password", className="input-style"),
             html.Button("Login", id="login-button"),
             html.Div(id="login-output", style={"margin-top": "10px"})
         ])
     elif tab == "create_account":
         return html.Div([
-            dcc.Input(id="create-username", type="text", placeholder="New Username"),
-            dcc.Input(id="create-password", type="password", placeholder="New Password"),
+            dcc.Input(id="create-username", type="text", placeholder="New Username", className="input-style"),
+            dcc.Input(id="create-password", type="password", placeholder="New Password", className="input-style"),
             html.Button("Create Account", id="create-account-button"),
             html.Div(id="create-account-output", style={"margin-top": "10px"})
         ])

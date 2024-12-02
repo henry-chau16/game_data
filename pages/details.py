@@ -11,21 +11,27 @@ search_engine = SearchEngine(sqlsession)
 review_manager = ReviewManager(sqlsession)
 account_manager = AccountManager(sqlsession)
 
-layout = html.Div([
-    dcc.Store(id="session-id", storage_type="session"),
-    dcc.Store(id="game-title", storage_type="session"),
-    dcc.Location(id="url", refresh=True),
-    html.Button("Logout", id="logout-details-button", n_clicks=0),
-    html.Button("Home", id='home-button'),
-    html.Div(id="logout-details-output", style={"margin-top": "10px"}),
-    html.H1(id='game'),
-    dcc.Tabs(id="tabs-game", value="details", children=[
-        dcc.Tab(label="About the Game", value="details"),
-        dcc.Tab(label="Write a review!", value="write_review")
-    ]),
-    html.Div(id="game-content")
-    
-])
+layout = html.Div(
+    className="glass-style",  # Apply glass-style to the outer container
+    children=[
+        dcc.Store(id="session-id", storage_type="session"),
+        dcc.Store(id="game-title", storage_type="session"),
+        dcc.Location(id="url", refresh=True),
+        html.Button("Logout", id="logout-details-button", n_clicks=0),
+        html.Button("Home", id='home-button', style={"margin-left": "10px"}),  # Add spacing for buttons
+        html.Div(id="logout-details-output", style={"margin-top": "10px"}),
+        html.H1(id='game', style={"margin-bottom": "20px"}),  # Add spacing below the heading
+        dcc.Tabs(
+            id="tabs-game",
+            value="details",
+            children=[
+                dcc.Tab(label="About the Game", value="details"),
+                dcc.Tab(label="Write a review!", value="write_review")
+            ]
+        ),
+        html.Div(id="game-content", style={"margin-top": "20px"})  # Add spacing for content
+    ]
+)
 
 @callback(
     Output("session-id", "clear_data", allow_duplicate=True),
@@ -94,7 +100,8 @@ def render_tab_home(tab, session_data):
             dcc.Textarea(
                 id='review-text',
                 value='',
-                style={'width': '50%', 'height': 200},  # Adjust dimensions as needed
+                style={'width': '50%', 'height': 200},
+                className="input-area-style"
             ),
             html.Button("Post", id = "create-review-button"),
             html.Div(id="review-output")

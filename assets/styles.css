@@ -1,0 +1,36 @@
+/* General container style for a glassmorphism effect */
+.glass-style {
+    width: 400px;
+    background-color: rgba(255, 255, 255, 0.13);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    padding: 20px;
+    color: rgb(10, 9, 9);
+    font-family: 'Poppins', sans-serif;
+    margin: auto;
+    text-align: center;
+    margin-top: 5%;
+}
+
+/* Input field style */
+.input-style {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(218, 213, 213, 0.1);
+    color: rgb(9, 8, 8);
+}
+
+.input-area-style {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid rgb(9, 8, 8);
+    border-radius: 5px;
+    background-color: rgba(218, 213, 213, 0.1);
+    color: rgb(9, 8, 8);
+}
