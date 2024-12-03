@@ -1,4 +1,5 @@
 App Dependencies: 
+-------------------
 blinker==1.9.0
 cachelib==0.13.0
 certifi==2024.8.30
@@ -33,25 +34,34 @@ tzdata==2024.2
 urllib3==2.2.3
 Werkzeug==3.0.6
 zipp==3.21.0
+--------------------
 
 RUNNING THE APP:
-
+----------------------------------------------
 Ensure you are in the app root directory:
 cd <path-to-game_data-folder>/game_data/
 
+- - - - - - - - - - - - - - - - - - - - - - - 
 Activate virtual environment:
 app_env\Scripts\activate
 
+- - - - - - - - - - - - - - - - - - - - - - -
 Or if installing dependencies manually:
 pip install -r requirements.txt
 
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 IF DATABASE FILE IS NOT IN APP ROOT DIRECTORY OR FIRST TIME RUNNING THE APP:
 python server_init.py
 
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Run app.py:
-set FLASK_APP=app.py # Running app using just python app.py will cause callback errors with flask elements in session storage
+set FLASK_APP=app.py 
 flask run
+***
+Running app using just python app.py will cause callback errors with flask elements in session storage
+***
 
+-------------------------------------------------
 App will be hosted on a local port:
 http://127.0.0.1:8050/ (by default)
 
