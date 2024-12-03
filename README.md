@@ -41,11 +41,9 @@ RUNNING THE APP:
 Ensure you are in the app root directory:
 cd <path-to-game_data-folder>/game_data/
 
-- - - - - - - - - - - - - - - - - - - - - - - 
 Activate virtual environment:
 app_env\Scripts\activate
 
-- - - - - - - - - - - - - - - - - - - - - - -
 Or if installing dependencies manually:
 pip install -r requirements.txt
 
